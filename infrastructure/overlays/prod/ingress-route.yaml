@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`local-gpt-dev.pericles-labs.xyz`)
+      match: Host(`local-gpt.pericles-labs.xyz`)
       middlewares:
         - name: sso
           namespace: infrastructure
