@@ -9,6 +9,6 @@ patches:
 - path: config-map.yaml
 - path: deployment.yaml
 images:
-- digest: sha256:fdc7ae66f87a8e8ea2dada0f1cb699ce5d2b1c8fb65621b8221302921adef77b
+- digest: sha256:41f45ba99547d0413e33a99d6c3a656806cef987b38edac467b268066f72a9ac
   name: us-central1-docker.pkg.dev/beaming-night-424319-g5/playground/local-gpt:prod
   newName: us-central1-docker.pkg.dev/beaming-night-424319-g5/playground/local-gpt
