@@ -70,7 +70,7 @@ jobs:
           context: "."
           platforms: linux/amd64
           push: true
-          tags: us-west4-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REGISTRY_NAME}}/${{env.IMAGE_NAME}}:${{ needs.setup.outputs.overlay }}
+          tags: us-central1-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REGISTRY_NAME}}/${{env.IMAGE_NAME}}:${{ needs.setup.outputs.overlay }}
 
       - name: Set up Kustomize
         run: |-
