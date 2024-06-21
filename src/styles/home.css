@@ -1,0 +1,168 @@
+body {
+  display: grid;
+  height: 100dvh;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  background: #f0f0f0;
+  place-content: center;
+}
+
+main {
+  width: 400px;
+  max-width: 100%;
+  height: 70vh;
+  margin-bottom: 16px;
+  padding: 8px;
+
+  overflow-y: auto;
+
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  scroll-behavior: smooth;
+}
+
+ul {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style: none;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  margin: 4px 0;
+  padding: 4px 8px;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    font-weight: 500;
+    font-size: 12px;
+    background: #eee;
+    border-radius: 999999px;
+  }
+
+  p {
+    margin-top: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  &.user {
+    align-items: flex-end;
+    align-self: flex-end;
+
+    span,
+    p {
+      background: rgb(219, 236, 255);
+    }
+  }
+
+  &.bot {
+    align-self: flex-start;
+
+    span,
+    p {
+      background: rgb(198, 255, 220);
+    }
+  }
+}
+
+form {
+  display: flex;
+
+  input {
+    flex-grow: 1;
+    margin-right: 8px;
+    padding: 8px;
+    border: 0;
+    border: 1px solid #ccc;
+    border-radius: 999999px;
+  }
+
+  button {
+    padding: 8px;
+    color: white;
+    background: #09f;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &[disabled] {
+      background: #ccc;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    &:hover {
+      background: rgb(0, 104, 173);
+    }
+  }
+}
+
+small {
+  position: fixed;
+  right: 0;
+  bottom: 10px;
+  left: 0;
+  width: 400px;
+  margin: auto;
+  color: #555;
+  font-size: 10px;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-top: 50%;
+  text-align: center;
+
+  i {
+    width: 2.5em;
+    height: 2.5em;
+    border: 0.4em solid transparent;
+    border-color: #eee;
+    border-top-color: #3e67ec;
+    border-radius: 50%;
+    animation: loadingspin 1s linear infinite;
+    pointer-events: none;
+  }
+
+  h4 {
+    margin-bottom: 8px;
+    color: #444;
+  }
+
+  h5 {
+    margin: 0;
+    font-weight: 400;
+    font-size: 10px;
+    opacity: 0.4;
+  }
+}
+
+@keyframes loadingspin {
+  100% {
+    transform: rotate(360deg);
+  }
+}

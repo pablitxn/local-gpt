@@ -1,0 +1,5 @@
+{
+  "src/**/*.js": "npm run format",
+  "src/**/*.css": "npm run format",
+  "src/**/*.html": "npm run format",
+}
