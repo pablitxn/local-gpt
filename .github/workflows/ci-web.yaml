@@ -3,9 +3,13 @@ name: CI `web`
 on:
   push:
     branches: [main, dev]
+    paths:
+      - "src/**"
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [main, dev]
+    paths:
+      - "src/**"
 
 jobs:
   build-checks:

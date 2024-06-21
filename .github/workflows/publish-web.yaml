@@ -3,6 +3,8 @@ name: Publish `web` to Artifact Registry
 on:
   push:
     branches: [main, dev]
+    paths:
+      - "src/**"
 
 jobs:
   setup:
