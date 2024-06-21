@@ -1,6 +1,6 @@
 # Local GPT
 
-This project is a simple web-based chat application utilizing an ML model running entirely in the browser. 
+This project is a simple web-based chat application utilizing an model running entirely in the browser. 
 It allows users to interact with a LLM model without needing a backend server.
 
 ## Features
