@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+spec:
+  template:
+    spec:
+      containers:
+        - name: app
+          image: us-central1-docker.pkg.dev/beaming-night-424319-g5/playground/frontend:dev

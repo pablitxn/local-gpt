@@ -1,0 +1,90 @@
+name: Publish `web` to Artifact Registry
+
+on:
+  push:
+    branches: [main, dev]
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      branch: ${{ steps.find_branch.outputs.branch }}
+      overlay: ${{ steps.determine_overlay.outputs.overlay }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Fetch all branch references
+        run: git fetch --all
+      - name: Get the current branch name
+        id: find_branch
+        run: |
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          echo "Remote branch name: $BRANCH_NAME"
+          echo "branch=$BRANCH_NAME" >> $GITHUB_OUTPUT
+      - name: Determine overlay
+        id: determine_overlay
+        run: |
+          if [[ "${{ steps.find_branch.outputs.branch }}" == "main" ]]; then
+            echo "overlay=prod" >> $GITHUB_OUTPUT
+          else
+            echo "overlay=${{ steps.find_branch.outputs.branch }}" >> $GITHUB_OUTPUT
+          fi
+
+  build-push-gcr:
+    needs: [setup]
+    name: "Build and Push to GCP Artifact Registry"
+    runs-on: ubuntu-latest
+    env:
+      REGISTRY_NAME: playground
+      IMAGE_NAME: local-gpt
+      PROJECT_ID: pericles-labs
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v3
+
+      - id: "auth"
+        name: "Authenticate to Google Cloud"
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+          token_format: "access_token"
+
+      - uses: "docker/login-action@v1"
+        with:
+          registry: "us-west4-docker.pkg.dev"
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
+
+      - run: |-
+          echo '${{ steps.auth.outputs.access_token }}' | docker login -u oauth2accesstoken --password-stdin ${{ vars.GCP_DOCKER_REGISTRY_URL }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build and push
+        id: image_build
+        uses: docker/build-push-action@v4
+        with:
+          context: "."
+          platforms: linux/amd64
+          push: true
+          tags: us-west4-docker.pkg.dev/${{env.PROJECT_ID}}/${{env.REGISTRY_NAME}}/${{env.IMAGE_NAME}}:${{ needs.setup.outputs.overlay }}
+
+      - name: Set up Kustomize
+        run: |-
+          curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
+          chmod u+x ./kustomize
+      - name: Update tag
+        run: |-
+          # replacing the image name in the k8s template
+          cd infrastructure/overlays/${{ needs.setup.outputs.overlay }} && ../../../kustomize edit set image ${{ vars.GCP_DOCKER_DOMAIN }}/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME:${{ needs.setup.outputs.overlay }}=${{ vars.GCP_DOCKER_DOMAIN }}/$PROJECT_ID/$REGISTRY_NAME/$IMAGE_NAME@${{ steps.image_build.outputs.digest }}
+      - name: Push changes
+        run: |-
+          git config --global user.email "local-gpt-ci@pablocoronel.com"
+          git config --global user.name "CI Bot"
+          git add ./infrastructure/overlays/${{ needs.setup.outputs.overlay }}/kustomization.yaml
+          git commit -m "ci: update deployment to latest digest"
+          git pull origin ${{ needs.setup.outputs.branch }} --rebase
+          git push origin ${{ needs.setup.outputs.branch }}

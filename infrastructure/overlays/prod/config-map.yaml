@@ -1,0 +1,6 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: web-config-map
+data:
+  SOME_KEY: "some value"

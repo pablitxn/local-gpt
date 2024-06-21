@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: web-ingress
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - kind: Rule
+      match: Host(`local-gpt-dev.pericles-labs.xyz`)
+      middlewares:
+        - name: sso
+          namespace: infrastructure
+      services:
+        - name: web-app
+          kind: Service
+          port: 80
+  tls:
+    secretName: acme-crt-secret
