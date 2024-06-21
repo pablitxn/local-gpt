@@ -35,7 +35,7 @@ Alternatively, you can use any other static file server of your choice.
 
 ### Public Version
 
-The public version of the application is hosted on Vercel and can be accessed at [local-gpt-sigma.vercel.app](local-gpt-sigma.vercel.app). This version is available for general use.
+The public version of the application is hosted on Vercel and can be accessed at [https://local-gpt-sigma.vercel.app](https://local-gpt-sigma.vercel.app). This version is available for general use.
 
 ### Private Development Version
 
