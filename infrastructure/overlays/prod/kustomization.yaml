@@ -2,13 +2,13 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - ../../base/
-  - ingress-route.yaml
+- ../../base/
+- ingress-route.yaml
 
 patches:
 - path: config-map.yaml
 - path: deployment.yaml
 images:
-- digest: sha256:25c9d14d6aa7b47ba03a344dbe66c66e820245b4eba540c7fc5a72b3ab59684c
+- digest: sha256:fdc7ae66f87a8e8ea2dada0f1cb699ce5d2b1c8fb65621b8221302921adef77b
   name: us-central1-docker.pkg.dev/beaming-night-424319-g5/playground/local-gpt:prod
   newName: us-central1-docker.pkg.dev/beaming-night-424319-g5/playground/local-gpt
