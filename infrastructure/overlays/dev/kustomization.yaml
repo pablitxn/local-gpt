@@ -3,7 +3,6 @@ kind: Kustomization
 
 resources:
   - ../../base/
-  - service.yaml
   - ingress-route.yaml
 
 patches:
