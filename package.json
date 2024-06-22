@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "prepare": "husky",
     "format": "prettier --write \"**/*.{js,css,html}\"",
-    "lint": "npm run lint"
+    "lint": "lint"
   },
   "repository": {
     "type": "git",
