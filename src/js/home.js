@@ -27,7 +27,7 @@ const engine = await CreateWebWorkerMLCEngine(
         $loading?.parentNode?.removeChild($loading)
         $button.removeAttribute("disabled")
         addMessage(
-          "¡Hola! Soy un ChatGPT que se ejecuta completamente en tu navegador. ¿En qué puedo ayudarte hoy?",
+          "Hello! I'm a Assistant running entirely in your browser. How can I assist you today?",
           "bot"
         )
         $input.focus()
