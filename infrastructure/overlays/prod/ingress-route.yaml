@@ -9,9 +9,9 @@ spec:
   routes:
     - kind: Rule
       match: Host(`local-gpt.pericles-labs.xyz`)
-      middlewares:
-        - name: sso
-          namespace: infrastructure
+#      middlewares:
+#        - name: sso
+#          namespace: infrastructure
       services:
         - name: web-app
           kind: Service
